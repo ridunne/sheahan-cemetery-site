@@ -1,0 +1,356 @@
+import React from "react";
+import { motion } from "framer-motion";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { MapPin, Clock, FileText, Landmark, Home, Briefcase, Users, Camera, BookOpen, Trees, Church } from "lucide-react";
+
+const personalTimeline = [
+  { year: "1821", title: "Born in Ireland", text: "Cornelius O. Sheahan was born in November 1821 in Ireland to Irish-born parents." },
+  { year: "1853", title: "First record in Philadelphia", text: "He appears in records connected to the Philadelphia Saving Fund Society, showing he was already in Philadelphia by the early 1850s." },
+  { year: "1856", title: "Naturalization process", text: "He pursued American citizenship through the Court of Common Pleas, signaling long-term settlement." },
+  { year: "1860", title: "Shoemaker and property owner", text: "The census lists him as a shoemaker with real estate and personal property, showing early financial stability." },
+  { year: "1870", title: "Boot & Shoe Store owner", text: "He remained connected to the Boot & Shoe business and had doubled his real estate value by 1870." },
+  { year: "1877", title: "Move to South 9th Street", text: "He sold the Lombard Street property and moved to 502 S. 9th Street, where he stayed for many years." },
+  { year: "1880", title: "Family established", text: "The census shows Cornelius, Margaret, John, and two nieces in the household." },
+  { year: "1887", title: "Active in real estate", text: "Newspaper records place him in property transactions, showing his transition into real estate investment." },
+  { year: "1900", title: "Retired household", text: "The 1900 census shows the family with a servant, suggesting increased wealth and retirement from daily labor." },
+  { year: "1902", title: "Death and burial", text: "Cornelius died on August 10, 1902 in Philadelphia and was buried at The Woodlands Cemetery." },
+];
+
+const phillyTimeline = [
+  { year: "1844", title: "Nativist Riots", text: "Anti-Catholic and anti-immigrant violence in Philadelphia shaped the atmosphere Irish immigrants later entered." },
+  { year: "1850s", title: "Irish settlement expands", text: "South Philadelphia became a major center of Irish immigrant life, especially for Catholic working-class families." },
+  { year: "1861–1865", title: "Civil War industry", text: "Philadelphia grew as a Union industrial center, increasing demand for labor, goods, and housing." },
+  { year: "1860s–1870s", title: "Manufacturing city", text: "Textiles, ironworks, machinery, and transportation reshaped the city economy and real estate market." },
+  { year: "1876", title: "Centennial Exhibition", text: "Philadelphia presented itself as a center of American industrial progress during the Centennial Exposition." },
+  { year: "1870s–1890s", title: "Urban political machines", text: "City politics, contracts, and local influence shaped sanitation, development, and neighborhood investment." },
+  { year: "Late 1800s", title: "Temperance and reform", text: "Reform movements responded to the effects of rapid urbanization in dense working-class neighborhoods." },
+  { year: "1902", title: "End of Sheahan’s Philadelphia life", text: "By the time of his death, Philadelphia had transformed into a dense industrial city shaped by labor, immigration, and reform." },
+];
+
+const nationalTimeline = [
+  { year: "1821", title: "Missouri Compromise era", text: "Cornelius was born during a period when sectional tensions over slavery were already shaping the United States." },
+  { year: "1820s–1830s", title: "Market Revolution", text: "Industrialization, canals, railroads, and wage labor expanded the American economy." },
+  { year: "1845–1852", title: "Great Irish Famine", text: "The famine devastated Ireland and pushed many immigrants, including Cornelius’s generation, toward America." },
+  { year: "1854", title: "Kansas–Nebraska Act", text: "The act deepened sectional conflict and revealed how unstable the Union had become." },
+  { year: "1850s", title: "Know Nothing movement", text: "Nativist politics targeted immigrants and Catholics, directly affecting Irish newcomers." },
+  { year: "1861–1865", title: "Civil War", text: "The Union mobilized industry and labor on a massive scale during the war years." },
+  { year: "1865–1877", title: "Reconstruction", text: "Federal power and the meaning of citizenship were redefined after the war." },
+  { year: "1873", title: "Panic of 1873", text: "A major economic downturn hurt property values, finance, and labor stability across the country." },
+  { year: "1877", title: "Great Railroad Strike", text: "Labor unrest showed the tensions produced by industrial capitalism during the Gilded Age." },
+  { year: "1898", title: "Spanish-American War", text: "The United States emerged as an overseas power near the end of Cornelius’s life." },
+];
+
+const photos = [
+  {
+    title: "The Woodlands gravesite",
+    date: "Photographed 2025",
+    icon: Church,
+    caption: "Cornelius and Margaret Sheahan share a tall granite headstone decorated with circular medallions and a Christian cross motif. Ivy now covers much of the base.",
+    note: "Insert your actual cemetery photo here."
+  },
+  {
+    title: "Boot & Shoe Store location",
+    date: "Historic employment site",
+    icon: Briefcase,
+    caption: "Cornelius worked at and later owned a Boot & Shoe Store associated with 1029 Chestnut Street.",
+    note: "Insert the map or archival image of 1029 Chestnut Street here."
+  },
+  {
+    title: "900–22 Lombard Street",
+    date: "Residence, 1870–1877",
+    icon: Home,
+    caption: "This property marks one of Cornelius’s known residences in South Philadelphia before his move to South 9th Street.",
+    note: "Insert your property map or present-day street image here."
+  },
+  {
+    title: "502 S. 9th Street",
+    date: "Residence, 1877–1902",
+    icon: MapPin,
+    caption: "Cornelius lived here for decades. The house remained in the family until it was transferred after John and Jennie’s ownership.",
+    note: "Insert your current-day photo or satellite view here."
+  },
+  {
+    title: "Cemetery section map",
+    date: "Woodlands plot reference",
+    icon: MapPin,
+    caption: "The cemetery map helps place Cornelius’s burial within The Woodlands and gives geographic context to the project.",
+    note: "Insert the cemetery route map here."
+  },
+];
+
+const documents = [
+  { code: "A", year: "1853", title: "Philadelphia Saving Fund Society record", summary: "Earliest evidence of Cornelius in Philadelphia." },
+  { code: "B", year: "1856", title: "Naturalization record", summary: "Shows his move toward citizenship and permanent settlement." },
+  { code: "C", year: "1860", title: "Federal census", summary: "Lists Cornelius as a shoemaker with property value and Margaret in the household." },
+  { code: "E", year: "1870", title: "Federal census", summary: "Shows increased real estate value and son John in the household." },
+  { code: "G", year: "1877", title: "Property transfer deed", summary: "Documents the sale connected to his move to South 9th Street." },
+  { code: "H", year: "1880", title: "Federal census", summary: "Shows the established Sheahan household, including John as a lawyer." },
+  { code: "L", year: "1887", title: "Real estate transfer notice", summary: "Confirms Cornelius’s active role in property transactions." },
+  { code: "U", year: "1900", title: "Federal census", summary: "Shows the household in later life, including a servant and John’s legal career." },
+  { code: "AA", year: "1902", title: "Last will and testament", summary: "Reveals Cornelius’s final wishes and the transfer of his estate to John." },
+  { code: "AH", year: "1902", title: "Death notice", summary: "Records his death and connects to the end of his life in Philadelphia." },
+];
+
+const quickFacts = [
+  { label: "Born", value: "November 1821, Ireland" },
+  { label: "Died", value: "August 10, 1902, Philadelphia" },
+  { label: "Buried", value: "The Woodlands Cemetery" },
+  { label: "Occupations", value: "Shoemaker, store owner, real estate investor" },
+  { label: "Known residences", value: "900–22 Lombard St. and 502 S. 9th St." },
+  { label: "Family", value: "Wife Margaret, son John C. Sheahan" },
+];
+
+function SectionHeader({ eyebrow, title, text }) {
+  return (
+    <div className="max-w-3xl">
+      <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slate-500">{eyebrow}</p>
+      <h2 className="mt-3 text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl">{title}</h2>
+      <p className="mt-4 text-base leading-7 text-slate-600 md:text-lg">{text}</p>
+    </div>
+  );
+}
+
+function TimelineColumn({ title, items, icon: Icon }) {
+  return (
+    <Card className="h-full rounded-2xl border-slate-200 shadow-sm">
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2 text-xl text-slate-900">
+          <Icon className="h-5 w-5" />
+          {title}
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        {items.map((item) => (
+          <div key={`${title}-${item.year}-${item.title}`} className="rounded-2xl border border-slate-200 p-4">
+            <div className="mb-2 flex items-center gap-2">
+              <Badge variant="secondary" className="rounded-full">{item.year}</Badge>
+            </div>
+            <h3 className="text-base font-semibold text-slate-900">{item.title}</h3>
+            <p className="mt-2 text-sm leading-6 text-slate-600">{item.text}</p>
+          </div>
+        ))}
+      </CardContent>
+    </Card>
+  );
+}
+
+function PhotoCard({ title, date, caption, note, icon: Icon }) {
+  return (
+    <Card className="overflow-hidden rounded-2xl border-slate-200 shadow-sm">
+      <div className="flex aspect-[16/10] items-center justify-center bg-slate-100">
+        <div className="flex flex-col items-center gap-3 text-slate-500">
+          <Icon className="h-10 w-10" />
+          <p className="text-sm font-medium">Image placeholder</p>
+        </div>
+      </div>
+      <CardContent className="p-5">
+        <div className="flex items-center justify-between gap-3">
+          <h3 className="text-lg font-semibold text-slate-900">{title}</h3>
+          <Badge variant="outline" className="rounded-full text-xs">{date}</Badge>
+        </div>
+        <p className="mt-3 text-sm leading-6 text-slate-600">{caption}</p>
+        <p className="mt-3 text-xs text-slate-500">{note}</p>
+      </CardContent>
+    </Card>
+  );
+}
+
+export default function CemeteryWebsite() {
+  return (
+    <div className="min-h-screen bg-slate-50 text-slate-900">
+      <section className="relative overflow-hidden border-b border-slate-200 bg-white">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(99,102,241,0.12),_transparent_35%),radial-gradient(circle_at_top_left,_rgba(14,165,233,0.10),_transparent_30%)]" />
+        <div className="relative mx-auto max-w-7xl px-6 py-20 md:px-10 md:py-28">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-end"
+          >
+            <div>
+              <Badge className="rounded-full bg-slate-900 px-4 py-1 text-white hover:bg-slate-900">Cemetery Project Website</Badge>
+              <h1 className="mt-6 max-w-4xl text-4xl font-semibold tracking-tight text-slate-900 md:text-6xl">
+                Cornelius O. Sheahan
+              </h1>
+              <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-600 md:text-xl">
+                An Irish immigrant, shoemaker, property owner, and Philadelphia businessman whose life reflects immigration, urban change, and opportunity in nineteenth-century America.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Button className="rounded-full px-6">Explore Timeline</Button>
+                <Button variant="outline" className="rounded-full px-6">View Documents</Button>
+              </div>
+            </div>
+
+            <Card className="rounded-[1.5rem] border-slate-200 shadow-lg">
+              <CardHeader>
+                <CardTitle className="text-2xl">Quick Facts</CardTitle>
+              </CardHeader>
+              <CardContent className="grid gap-4 sm:grid-cols-2">
+                {quickFacts.map((fact) => (
+                  <div key={fact.label} className="rounded-2xl bg-slate-50 p-4">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{fact.label}</p>
+                    <p className="mt-2 text-sm leading-6 text-slate-800">{fact.value}</p>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+          </motion.div>
+        </div>
+      </section>
+
+      <main className="mx-auto max-w-7xl space-y-24 px-6 py-16 md:px-10 md:py-20">
+        <section id="introduction" className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+          <SectionHeader
+            eyebrow="Introduction"
+            title="Why Cornelius O. Sheahan matters"
+            text="Cornelius O. Sheahan’s life tells a larger story about Irish immigration, economic mobility, religion, and life in nineteenth-century Philadelphia. Born in Ireland in 1821, he appears in Philadelphia records by the early 1850s, pursued citizenship in 1856, built wealth through shoemaking and real estate, and remained rooted in South Philadelphia until his death in 1902."
+          />
+          <Card className="rounded-2xl border-slate-200 shadow-sm">
+            <CardContent className="p-6">
+              <div className="flex items-start gap-4">
+                <div className="rounded-2xl bg-slate-100 p-3">
+                  <Landmark className="h-6 w-6 text-slate-700" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold">Project focus</h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">
+                    This site is built to match the cemetery project rubric: introduction, biography, three-path timeline, photo documentation, document access, and family tree presentation.
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+
+        <section id="biography" className="space-y-8">
+          <SectionHeader
+            eyebrow="Biography"
+            title="From Ireland to Philadelphia"
+            text="Cornelius was born in Ireland and likely came of age during British rule and the conditions that culminated in the Great Irish Famine. By the early 1850s he had reached Philadelphia, where he began establishing himself economically and legally. His naturalization record, census appearances, business ties, and probate records show a man who built a stable life through skilled labor and property investment."
+          />
+
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+            <Card className="rounded-2xl border-slate-200 shadow-sm">
+              <CardContent className="p-6">
+                <Users className="h-6 w-6 text-slate-700" />
+                <h3 className="mt-4 text-lg font-semibold">Family</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-600">He married Margaret Sheahan and had a son, John C. Sheahan, who later became a lawyer.</p>
+              </CardContent>
+            </Card>
+            <Card className="rounded-2xl border-slate-200 shadow-sm">
+              <CardContent className="p-6">
+                <Briefcase className="h-6 w-6 text-slate-700" />
+                <h3 className="mt-4 text-lg font-semibold">Work</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-600">He worked as a shoemaker, was associated with a Boot & Shoe Store, and later became active in real estate.</p>
+              </CardContent>
+            </Card>
+            <Card className="rounded-2xl border-slate-200 shadow-sm">
+              <CardContent className="p-6">
+                <Home className="h-6 w-6 text-slate-700" />
+                <h3 className="mt-4 text-lg font-semibold">Residences</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-600">Known addresses include 900–22 Lombard Street and 502 South 9th Street in South Philadelphia.</p>
+              </CardContent>
+            </Card>
+            <Card className="rounded-2xl border-slate-200 shadow-sm">
+              <CardContent className="p-6">
+                <Church className="h-6 w-6 text-slate-700" />
+                <h3 className="mt-4 text-lg font-semibold">Religion and burial</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-600">The family’s funeral records suggest Roman Catholic ties, including High Mass services.</p>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
+        <section id="timeline" className="space-y-8">
+          <SectionHeader
+            eyebrow="Historical Timeline"
+            title="Three parallel paths"
+            text="The rubric asks for three separate but parallel historical paths. Below, Cornelius’s personal life is placed beside key events in Philadelphia and the nation so viewers can see how his story connects to broader historical change."
+          />
+          <div className="grid gap-6 xl:grid-cols-3">
+            <TimelineColumn title="Personal Path" items={personalTimeline} icon={Clock} />
+            <TimelineColumn title="Philadelphia Path" items={phillyTimeline} icon={MapPin} />
+            <TimelineColumn title="National Path" items={nationalTimeline} icon={Landmark} />
+          </div>
+        </section>
+
+        <section id="photo-documentation" className="space-y-8">
+          <SectionHeader
+            eyebrow="Photo Documentation"
+            title="Places connected to Sheahan’s life"
+            text="This section is designed for the required photo documentation. Add your own photos, maps, satellite screenshots, or archival images for each location tied to Cornelius’s life and include dates and captions beneath each one."
+          />
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {photos.map((photo) => (
+              <PhotoCard key={photo.title} {...photo} />
+            ))}
+          </div>
+        </section>
+
+        <section id="documents" className="space-y-8">
+          <SectionHeader
+            eyebrow="Document Page"
+            title="Key documents and analysis"
+            text="The project binder contains a large document analysis section. This page highlights some of the most important records used to reconstruct Cornelius’s life, from immigration and census data to deeds, wills, and death records."
+          />
+          <Card className="rounded-2xl border-slate-200 shadow-sm">
+            <CardContent className="p-0">
+              <ScrollArea className="h-[420px]">
+                <div className="divide-y divide-slate-200">
+                  {documents.map((doc) => (
+                    <div key={doc.code} className="flex flex-col gap-3 p-5 md:flex-row md:items-start md:justify-between">
+                      <div className="flex gap-4">
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-slate-100 text-sm font-bold text-slate-700">
+                          {doc.code}
+                        </div>
+                        <div>
+                          <div className="flex flex-wrap items-center gap-2">
+                            <h3 className="text-base font-semibold text-slate-900">{doc.title}</h3>
+                            <Badge variant="outline" className="rounded-full">{doc.year}</Badge>
+                          </div>
+                          <p className="mt-2 text-sm leading-6 text-slate-600">{doc.summary}</p>
+                        </div>
+                      </div>
+                      <Button variant="ghost" className="justify-start rounded-full md:justify-center">
+                        <FileText className="mr-2 h-4 w-4" />
+                        Add image or PDF link
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              </ScrollArea>
+            </CardContent>
+          </Card>
+        </section>
+
+        <section id="family-tree" className="space-y-8">
+          <SectionHeader
+            eyebrow="Family Tree"
+            title="The Sheahan family"
+            text="The rubric requires a scanned family tree depicting the subject and his family members. Use the space below to insert the scanned image from your binder."
+          />
+          <Card className="rounded-2xl border-dashed border-slate-300 bg-white shadow-sm">
+            <CardContent className="flex min-h-[320px] flex-col items-center justify-center p-8 text-center">
+              <Trees className="h-12 w-12 text-slate-500" />
+              <h3 className="mt-4 text-xl font-semibold text-slate-900">Family tree image placeholder</h3>
+              <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600">
+                Insert the scanned family tree here. You can replace this area with your actual image file or embed the family tree as a downloadable PDF.
+              </p>
+            </CardContent>
+          </Card>
+        </section>
+
+        <section id="legacy" className="space-y-8 pb-10">
+          <SectionHeader
+            eyebrow="Legacy"
+            title="A life built through work, migration, and persistence"
+            text="Cornelius O. Sheahan may not have been nationally famous, but his life captures a powerful immigrant story. He left Ireland, adapted to a new city, gained citizenship, built wealth, supported his family, and left behind a documentary trail that lets us see how one person’s life intersected with the growth of Philadelphia and the United States in the nineteenth century."
+          />
+        </section>
+      </main>
+    </div>
+  );
+}
