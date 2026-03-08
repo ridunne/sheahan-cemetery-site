@@ -1,187 +1,842 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-<title>Cornelius O. Sheahan | Cemetery Project</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cornelius O. Sheahan | Cemetery Project</title>
+  <style>
+    :root{
+      --bg:#0f1115;
+      --panel:#171a21;
+      --panel-2:#1e2430;
+      --text:#f3f4f6;
+      --muted:#c8ced8;
+      --line:#2f3745;
+      --accent:#d6b36a;
+      --accent-2:#8aa0c8;
+      --soft:#111827;
+    }
 
-<style>
+    *{box-sizing:border-box; scroll-behavior:smooth;}
 
-body{
-font-family:Georgia, serif;
-background:#111;
-color:white;
-margin:0;
-}
+    body{
+      margin:0;
+      font-family: Georgia, "Times New Roman", serif;
+      background: linear-gradient(180deg, #0d0f14 0%, #121722 100%);
+      color:var(--text);
+      line-height:1.6;
+    }
 
-header{
-background:url("https://images.unsplash.com/photo-1527482797697-8795b05a13fe") center/cover;
-padding:120px 40px;
-text-align:center;
-}
+    a{color:var(--accent); text-decoration:none;}
+    a:hover{text-decoration:underline;}
 
-header h1{
-font-size:60px;
-margin:0;
-}
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:100;
+      background:rgba(10,12,17,.9);
+      backdrop-filter: blur(8px);
+      border-bottom:1px solid var(--line);
+    }
 
-header p{
-font-size:20px;
-opacity:.9;
-}
+    .nav{
+      max-width:1200px;
+      margin:0 auto;
+      padding:12px 20px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:16px;
+    }
 
-section{
-padding:60px 15%;
-}
+    .nav .brand{
+      font-size:18px;
+      font-weight:bold;
+      letter-spacing:.4px;
+      color:white;
+    }
 
-h2{
-border-bottom:2px solid #555;
-padding-bottom:10px;
-}
+    .nav-links{
+      display:flex;
+      flex-wrap:wrap;
+      gap:14px;
+      font-size:14px;
+    }
 
-.card{
-background:#1e1e1e;
-padding:20px;
-margin:20px 0;
-border-radius:8px;
-}
+    .hero{
+      min-height:78vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:90px 20px 70px;
+      background:
+        linear-gradient(rgba(6,8,12,.60), rgba(10,12,17,.82)),
+        url("https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=1600&q=80")
+        center/cover;
+      border-bottom:1px solid var(--line);
+    }
 
-.timeline{
-display:grid;
-grid-template-columns:1fr 1fr 1fr;
-gap:20px;
-}
+    .hero-inner{
+      max-width:900px;
+    }
 
-.timeline div{
-background:#1e1e1e;
-padding:15px;
-border-radius:6px;
-}
+    .kicker{
+      display:inline-block;
+      padding:6px 12px;
+      border:1px solid rgba(214,179,106,.45);
+      color:var(--accent);
+      border-radius:999px;
+      font-size:13px;
+      margin-bottom:18px;
+      background:rgba(0,0,0,.25);
+    }
 
-img{
-width:100%;
-border-radius:6px;
-margin-top:10px;
-}
+    h1{
+      margin:0;
+      font-size:clamp(38px, 7vw, 72px);
+      line-height:1.05;
+      letter-spacing:.3px;
+    }
 
-footer{
-text-align:center;
-padding:30px;
-background:#000;
-opacity:.8;
-}
+    .hero p{
+      margin:20px auto 0;
+      max-width:780px;
+      color:#eef2f7;
+      font-size:clamp(17px, 2.2vw, 22px);
+    }
 
-</style>
+    .hero-buttons{
+      margin-top:28px;
+      display:flex;
+      justify-content:center;
+      flex-wrap:wrap;
+      gap:14px;
+    }
+
+    .btn{
+      display:inline-block;
+      padding:12px 18px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background:#ffffff10;
+      color:white;
+      font-size:15px;
+    }
+
+    .btn.primary{
+      background:var(--accent);
+      color:#111;
+      border-color:var(--accent);
+      font-weight:bold;
+    }
+
+    .container{
+      max-width:1200px;
+      margin:0 auto;
+      padding:50px 20px 70px;
+    }
+
+    section{
+      margin:0 0 34px;
+    }
+
+    .section-title{
+      margin:0 0 10px;
+      font-size:34px;
+      color:white;
+    }
+
+    .section-sub{
+      margin:0 0 20px;
+      color:var(--muted);
+      max-width:900px;
+    }
+
+    .grid{
+      display:grid;
+      gap:20px;
+    }
+
+    .grid-2{
+      grid-template-columns:repeat(2, minmax(0,1fr));
+    }
+
+    .grid-3{
+      grid-template-columns:repeat(3, minmax(0,1fr));
+    }
+
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:22px;
+      box-shadow:0 10px 30px rgba(0,0,0,.20);
+    }
+
+    .card h3{
+      margin-top:0;
+      margin-bottom:10px;
+      color:#fff;
+      font-size:22px;
+    }
+
+    .fact-list{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:14px;
+    }
+
+    .fact{
+      background:rgba(255,255,255,.03);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:14px;
+    }
+
+    .fact strong{
+      display:block;
+      color:var(--accent);
+      margin-bottom:4px;
+      font-size:13px;
+      text-transform:uppercase;
+      letter-spacing:.7px;
+    }
+
+    .timeline-col h3{
+      border-bottom:1px solid var(--line);
+      padding-bottom:10px;
+      margin-bottom:16px;
+    }
+
+    .event{
+      border-left:3px solid var(--accent);
+      padding:0 0 0 14px;
+      margin:0 0 18px;
+    }
+
+    .event .year{
+      color:var(--accent);
+      font-weight:bold;
+      font-size:15px;
+    }
+
+    .event .title{
+      color:#fff;
+      font-weight:bold;
+      margin-top:2px;
+    }
+
+    .event p{
+      margin:6px 0 0;
+      color:var(--muted);
+      font-size:15px;
+    }
+
+    .photo-box{
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01)),
+        url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80")
+        center/cover;
+      min-height:200px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      display:flex;
+      align-items:end;
+      padding:12px;
+      color:#fff;
+      font-weight:bold;
+    }
+
+    .photo-card p, .doc-card p{
+      color:var(--muted);
+      margin-bottom:0;
+    }
+
+    .doc-tag{
+      display:inline-block;
+      font-size:12px;
+      padding:5px 10px;
+      border-radius:999px;
+      background:#ffffff0d;
+      border:1px solid var(--line);
+      color:var(--accent);
+      margin-bottom:12px;
+    }
+
+    .family-tree{
+      text-align:center;
+      padding:34px;
+      border:2px dashed #546074;
+      border-radius:18px;
+      background:#ffffff06;
+    }
+
+    .family-tree h3{
+      margin-top:0;
+    }
+
+    .footer{
+      border-top:1px solid var(--line);
+      padding:28px 20px 40px;
+      color:#b8c0cd;
+      text-align:center;
+      font-size:14px;
+    }
+
+    ul{
+      padding-left:20px;
+    }
+
+    .note{
+      color:#a8b3c5;
+      font-size:14px;
+    }
+
+    @media (max-width:900px){
+      .grid-2, .grid-3, .fact-list{
+        grid-template-columns:1fr;
+      }
+
+      .nav{
+        align-items:flex-start;
+        flex-direction:column;
+      }
+
+      .hero{
+        min-height:auto;
+      }
+    }
+  </style>
 </head>
-
 <body>
 
-<header>
-<h1>Cornelius O. Sheahan</h1>
-<p>Philadelphia Cemetery Research Project</p>
-</header>
+  <div class="topbar">
+    <div class="nav">
+      <div class="brand">Cornelius O. Sheahan</div>
+      <div class="nav-links">
+        <a href="#intro">Introduction</a>
+        <a href="#bio">Biography</a>
+        <a href="#timeline">Timeline</a>
+        <a href="#photos">Photos</a>
+        <a href="#documents">Documents</a>
+        <a href="#family">Family Tree</a>
+      </div>
+    </div>
+  </div>
 
-<section>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="kicker">APUSH Cemetery Research Project</div>
+      <h1>Cornelius O. Sheahan</h1>
+      <p>
+        Irish immigrant, shoemaker, store owner, real estate investor, husband, father,
+        and longtime Philadelphia resident whose life reflected immigration, labor,
+        urban growth, and economic mobility in nineteenth-century America.
+      </p>
+      <div class="hero-buttons">
+        <a class="btn primary" href="#timeline">Explore Timeline</a>
+        <a class="btn" href="#documents">View Documents</a>
+      </div>
+    </div>
+  </header>
 
-<h2>Introduction</h2>
+  <main class="container">
 
-<div class="card">
-Cornelius O. Sheahan was an Irish immigrant who built a life in Philadelphia during the nineteenth century. 
-Born in Ireland in 1821, he immigrated to the United States and worked as a shoemaker before later becoming 
-a property owner and businessman. His life reflects the experience of many immigrants who came to American 
-cities seeking economic opportunity during the nineteenth century.
-</div>
+    <section id="intro">
+      <h2 class="section-title">Introduction</h2>
+      <p class="section-sub">
+        Cornelius O. Sheahan was born in November 1821 in Ireland and died in Philadelphia on August 10, 1902.
+        His grave at The Woodlands led to a deeper investigation into how one immigrant built a stable life
+        in Philadelphia during the nineteenth century. His story shows how immigration, skilled labor,
+        family life, and property ownership could shape social mobility in an American city.
+      </p>
 
-</section>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>Why he matters</h3>
+          <p>
+            Sheahan’s life matters because it reflects a larger historical pattern. He appears in
+            Philadelphia records by the early 1850s, pursued naturalization in 1856, worked as a shoemaker,
+            gained ties to a Boot &amp; Shoe business at 1029 Chestnut Street, invested in property, and
+            remained rooted in South Philadelphia for decades. His life connects personal success to the
+            wider story of Irish immigration and urban growth.
+          </p>
+        </div>
 
-<section>
+        <div class="card">
+          <h3>Quick Facts</h3>
+          <div class="fact-list">
+            <div class="fact"><strong>Born</strong>November 1821, Ireland</div>
+            <div class="fact"><strong>Died</strong>August 10, 1902, Philadelphia</div>
+            <div class="fact"><strong>Buried</strong>The Woodlands Cemetery</div>
+            <div class="fact"><strong>Occupations</strong>Shoemaker, Boot &amp; Shoe owner, real estate investor</div>
+            <div class="fact"><strong>Known addresses</strong>900–22 Lombard Street and 502 S. 9th Street</div>
+            <div class="fact"><strong>Family</strong>Margaret Sheahan and John C. Sheahan</div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<h2>Biography</h2>
+    <section id="bio">
+      <h2 class="section-title">Biography</h2>
+      <p class="section-sub">
+        Cornelius O. Sheahan’s life can be traced through census records, deed records, directories,
+        probate documents, and death records. Those sources show a man who started with skilled labor
+        and gradually built wealth and long-term stability.
+      </p>
 
-<div class="card">
-Sheahan lived in Philadelphia where he worked in the boot and shoe trade and eventually invested in property. 
-Census records show him living with his wife Margaret and their son John. Over time his property value increased, 
-demonstrating economic mobility. He lived at locations including Lombard Street and later 502 South 9th Street. 
-Cornelius died in 1902 and was buried at The Woodlands Cemetery.
-</div>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>Early life and immigration</h3>
+          <p>
+            Cornelius was born in Ireland to Irish parents. He likely left during the era of the Great Irish
+            Famine, when many people emigrated in search of survival and opportunity. By 1853, he already
+            appears in a Philadelphia record tied to the Philadelphia Saving Fund Society, which suggests
+            he was in the city before he officially completed citizenship.
+          </p>
+        </div>
 
-</section>
+        <div class="card">
+          <h3>Work and wealth</h3>
+          <p>
+            In 1860, Cornelius was listed as a shoemaker with real estate and personal estate already in his name.
+            By 1870, he was associated with a Boot &amp; Shoe Store and had doubled his real estate value.
+            Over time, evidence suggests he shifted away from shoemaking and toward real estate, where he
+            became more financially successful.
+          </p>
+        </div>
 
-<section>
+        <div class="card">
+          <h3>Home and community</h3>
+          <p>
+            Property records connect him to 900–22 Lombard Street between 1870 and 1877. A deed transfer from
+            October 6, 1877 shows the shift to 502 South 9th Street. The two addresses were close together,
+            suggesting he stayed within the same South Philadelphia Irish community rather than leaving it.
+          </p>
+        </div>
 
-<h2>Historical Timeline</h2>
+        <div class="card">
+          <h3>Family life</h3>
+          <p>
+            Cornelius lived with his wife Margaret, who was born in New York to Irish parents, and their son
+            John C. Sheahan, who later became a lawyer. The 1880 census also shows two nieces, Mary and Katie,
+            in the household. By 1900, the household included John, John’s wife Jennie, and a servant,
+            showing increased status and comfort late in Cornelius’s life.
+          </p>
+        </div>
 
-<div class="timeline">
+        <div class="card">
+          <h3>Final years</h3>
+          <p>
+            Later records show Cornelius retired and still living with family. Probate and estate records
+            show that he had accumulated substantial wealth and property. He died in 1902 and was buried
+            at The Woodlands, ending a decades-long life in Philadelphia.
+          </p>
+        </div>
 
-<div>
-<h3>Personal</h3>
-1821 – Born in Ireland<br>
-1856 – Naturalization process<br>
-1860 – Listed as shoemaker<br>
-1870 – Property increases<br>
-1877 – Moves to South 9th Street<br>
-1902 – Death in Philadelphia
-</div>
+        <div class="card">
+          <h3>Historical significance</h3>
+          <p>
+            Cornelius’s life shows how an immigrant could use labor, discipline, family support,
+            and neighborhood stability to move upward socially and economically in nineteenth-century
+            Philadelphia. His story is both personal and representative of a much larger immigrant experience.
+          </p>
+        </div>
+      </div>
+    </section>
 
-<div>
-<h3>Philadelphia</h3>
-1844 – Nativist riots<br>
-1850s – Irish immigration grows<br>
-1860s – Civil War industrial boom<br>
-1876 – Centennial Exhibition
-</div>
+    <section id="timeline">
+      <h2 class="section-title">Historical Timeline</h2>
+      <p class="section-sub">
+        The project rubric requires three separate timeline paths that parallel one another:
+        personal, Philadelphia, and national. These paths below are kept separate while still
+        showing how Cornelius’s life connected to larger historical developments.
+      </p>
 
-<div>
-<h3>National</h3>
-Great Irish Famine<br>
-Civil War<br>
-Reconstruction<br>
-Gilded Age industrial growth
-</div>
+      <div class="grid grid-3">
+        <div class="card timeline-col">
+          <h3>Personal Path</h3>
 
-</div>
+          <div class="event">
+            <div class="year">1821</div>
+            <div class="title">Born in Ireland</div>
+            <p>Cornelius O. Sheahan was born in November 1821 to Irish parents.</p>
+          </div>
 
-</section>
+          <div class="event">
+            <div class="year">1853</div>
+            <div class="title">Earliest Philadelphia record</div>
+            <p>He appears in a Philadelphia Saving Fund Society related record, showing he was already in the city.</p>
+          </div>
 
-<section>
+          <div class="event">
+            <div class="year">1856</div>
+            <div class="title">Naturalization process</div>
+            <p>He pursued citizenship through the Court of Common Pleas, showing long-term settlement.</p>
+          </div>
 
-<h2>Photo Documentation</h2>
+          <div class="event">
+            <div class="year">1860</div>
+            <div class="title">Shoemaker with property</div>
+            <p>The census lists him as a shoemaker with real estate and personal estate.</p>
+          </div>
 
-<div class="card">
-Add images of:
-<ul>
-<li>Sheahan gravesite</li>
-<li>502 South 9th Street</li>
-<li>Lombard Street residence</li>
-<li>Boot & Shoe store location</li>
-<li>Cemetery map</li>
-</ul>
-</div>
+          <div class="event">
+            <div class="year">1869</div>
+            <div class="title">Connected to 1029 Chestnut Street</div>
+            <p>A historical image links his Boot &amp; Shoe location to 1029 Chestnut Street.</p>
+          </div>
 
-</section>
+          <div class="event">
+            <div class="year">1870</div>
+            <div class="title">Wealth grows</div>
+            <p>The census shows his real estate value doubled from the previous decade.</p>
+          </div>
 
-<section>
+          <div class="event">
+            <div class="year">1870–1877</div>
+            <div class="title">Lives at Lombard Street</div>
+            <p>Property records place him at 900–22 Lombard Street.</p>
+          </div>
 
-<h2>Documents</h2>
+          <div class="event">
+            <div class="year">1877</div>
+            <div class="title">Moves to 502 S. 9th Street</div>
+            <p>A deed transfer documents his move to a nearby South Philadelphia address.</p>
+          </div>
 
-<div class="card">
-Include screenshots or images of census records, naturalization papers, deeds, wills, and other documents used in the research.
-</div>
+          <div class="event">
+            <div class="year">1880</div>
+            <div class="title">Established household</div>
+            <p>The census shows Cornelius, Margaret, John, and nieces Mary and Katie living together.</p>
+          </div>
 
-</section>
+          <div class="event">
+            <div class="year">1900</div>
+            <div class="title">Retired family household</div>
+            <p>Cornelius and Margaret are no longer listed with occupations, and the family had a servant.</p>
+          </div>
 
-<section>
+          <div class="event">
+            <div class="year">1902</div>
+            <div class="title">Death</div>
+            <p>Cornelius died in Philadelphia and was buried at The Woodlands Cemetery.</p>
+          </div>
+        </div>
 
-<h2>Family Tree</h2>
+        <div class="card timeline-col">
+          <h3>Philadelphia Path</h3>
 
-<div class="card">
-Insert the scanned family tree depicting Cornelius O. Sheahan and his family members.
-</div>
+          <div class="event">
+            <div class="year">1844</div>
+            <div class="title">Nativist riots</div>
+            <p>Philadelphia experienced anti-immigrant and anti-Catholic violence, shaping the climate later Irish immigrants entered.</p>
+          </div>
 
-</section>
+          <div class="event">
+            <div class="year">1850s</div>
+            <div class="title">Irish communities expand</div>
+            <p>Irish immigrants increasingly settled in neighborhoods across Philadelphia, especially in working-class areas.</p>
+          </div>
 
-<footer>
-Cemetery Research Project
-</footer>
+          <div class="event">
+            <div class="year">1860s</div>
+            <div class="title">Civil War industrial growth</div>
+            <p>Philadelphia expanded as a major Union city, increasing demand for labor, goods, and urban housing.</p>
+          </div>
+
+          <div class="event">
+            <div class="year">1870s</div>
+            <div class="title">Urban development and neighborhood stability</div>
+            <p>Property ownership became increasingly important as immigrant families established long-term roots in city neighborhoods.</p>
+          </div>
+
+          <div class="event">
+            <div class="year">1876</div>
+            <div class="title">Centennial Exhibition</div>
+            <p>Philadelphia showcased itself as a center of American industrial progress and national celebration.</p>
+          </div>
+
+          <div class="event">
+            <div class="year">1880s–1890s</div>
+            <div class="title">Machine politics and reform</div>
+            <p>Urban politics, patronage, and reform movements shaped city life and affected property, contracts, and neighborhood development.</p>
+          </div>
+
+          <div class="event">
+            <div class="year">1902</div>
+            <div class="title">Industrial Philadelphia</div>
+            <p>By the time Cornelius died, Philadelphia had become a dense industrial city shaped by immigration, labor, and urban growth.</p>
+          </div>
+        </div>
+
+        <div class="card timeline-col">
+          <h3>National Path</h3>
+
+          <div class="event">
+            <div class="year">1820s–1830s</div>
+            <div class="title">Market Revolution</div>
+            <p>Transportation, commerce, and wage labor expanded the American economy and encouraged urban opportunity.</p>
+          </div>
+
+          <div class="event">
+            <div class="year">1845–1852</div>
+            <div class="title">Great Irish Famine</div>
+            <p>The famine devastated Ireland and pushed many immigrants, including people from Cornelius’s generation, toward America.</p>
+          </div>
+
+          <div class="event">
+            <div class="year">1850s</div>
+            <div class="title">Nativism rises</div>
+            <p>Movements like the Know-Nothings reflected hostility toward immigrants and Catholics.</p>
+          </div>
+
+          <div class="event">
+            <div class="year">1861–1865</div>
+            <div class="title">Civil War</div>
+            <p>The war transformed labor, politics, and industrial production across the country.</p>
+          </div>
+
+          <div class="event">
+            <div class="year">1865–1877</div>
+            <div class="title">Reconstruction</div>
+            <p>Questions of citizenship, rights, and federal power changed the meaning of belonging in the United States.</p>
+          </div>
+
+          <div class="event">
+            <div class="year">1873</div>
+            <div class="title">Panic of 1873</div>
+            <p>A major economic downturn affected property, business, and labor nationwide.</p>
+          </div>
+
+          <div class="event">
+            <div class="year">1877</div>
+            <div class="title">Great Railroad Strike</div>
+            <p>Labor unrest showed how industrial capitalism created tension and instability.</p>
+          </div>
+
+          <div class="event">
+            <div class="year">1890s</div>
+            <div class="title">Gilded Age wealth and inequality</div>
+            <p>Business growth, urban expansion, and unequal wealth shaped the national economy late in Cornelius’s life.</p>
+          </div>
+
+          <div class="event">
+            <div class="year">1898</div>
+            <div class="title">Spanish-American War</div>
+            <p>The United States emerged as an overseas power near the end of the nineteenth century.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="photos">
+      <h2 class="section-title">Photo Documentation</h2>
+      <p class="section-sub">
+        This section is made to satisfy the rubric requirement for photo documentation.
+        Replace the placeholders below with your actual photos, screenshots, maps, or satellite images.
+        Keep the caption and date under each image.
+      </p>
+
+      <div class="grid grid-3">
+        <div class="card photo-card">
+          <div class="photo-box">Gravesite Photo</div>
+          <h3>The Woodlands gravesite</h3>
+          <p><strong>Date:</strong> Add date photographed</p>
+          <p>Caption: Cornelius O. Sheahan’s headstone at The Woodlands Cemetery, where he was buried after his death in 1902.</p>
+        </div>
+
+        <div class="card photo-card">
+          <div class="photo-box">Historic Business Site</div>
+          <h3>1029 Chestnut Street</h3>
+          <p><strong>Date:</strong> Add image date or archival source date</p>
+          <p>Caption: Historical location associated with Cornelius Sheahan’s Boot &amp; Shoe business in Philadelphia.</p>
+        </div>
+
+        <div class="card photo-card">
+          <div class="photo-box">Residence Photo</div>
+          <h3>900–22 Lombard Street</h3>
+          <p><strong>Date:</strong> Add screenshot or photo date</p>
+          <p>Caption: Residence associated with Cornelius between 1870 and 1877, before his move to South 9th Street.</p>
+        </div>
+
+        <div class="card photo-card">
+          <div class="photo-box">Residence Photo</div>
+          <h3>502 S. 9th Street</h3>
+          <p><strong>Date:</strong> Add screenshot or photo date</p>
+          <p>Caption: Long-term Sheahan family residence and the center of later family records and city directory entries.</p>
+        </div>
+
+        <div class="card photo-card">
+          <div class="photo-box">Map / Satellite View</div>
+          <h3>Neighborhood map</h3>
+          <p><strong>Date:</strong> Add map date</p>
+          <p>Caption: Map showing how close Lombard Street, South 9th Street, and the business district were to one another.</p>
+        </div>
+
+        <div class="card photo-card">
+          <div class="photo-box">Cemetery Map</div>
+          <h3>The Woodlands section map</h3>
+          <p><strong>Date:</strong> Add date used</p>
+          <p>Caption: Cemetery map helping locate Cornelius O. Sheahan’s burial site within The Woodlands.</p>
+        </div>
+      </div>
+
+      <p class="note">
+        Tip: if you already have actual image files, you can replace each placeholder box with
+        an &lt;img src="your-image-link-here"&gt; tag later.
+      </p>
+    </section>
+
+    <section id="documents">
+      <h2 class="section-title">Document Page</h2>
+      <p class="section-sub">
+        The rubric requires a document page where all documents and their analysis are easy to read and access.
+        This section gives a clean summary of the strongest documents from the research binder.
+      </p>
+
+      <div class="grid grid-2">
+
+        <div class="card doc-card">
+          <div class="doc-tag">Document A | 1853</div>
+          <h3>Philadelphia Saving Fund Society record</h3>
+          <p>
+            This is the earliest known record placing Cornelius in Philadelphia. It is important because
+            it proves he was in the city before becoming a citizen and shows the start of his life in America.
+          </p>
+        </div>
+
+        <div class="card doc-card">
+          <div class="doc-tag">Document B | 1856</div>
+          <h3>Naturalization record</h3>
+          <p>
+            This document shows Cornelius moving toward American citizenship. It helps explain how he
+            secured legal standing, property rights, and long-term stability in Philadelphia.
+          </p>
+        </div>
+
+        <div class="card doc-card">
+          <div class="doc-tag">Document C | 1860</div>
+          <h3>1860 Census</h3>
+          <p>
+            Cornelius is listed as a shoemaker with real estate and personal estate. This shows that even
+            before entering real estate full time, he had already begun building financial stability.
+          </p>
+        </div>
+
+        <div class="card doc-card">
+          <div class="doc-tag">Document D | 1869</div>
+          <h3>1029 Chestnut Street image</h3>
+          <p>
+            This image connects Cornelius to the Boot &amp; Shoe Store location and helps place his business
+            physically within Philadelphia. It also supports his role as a business owner.
+          </p>
+        </div>
+
+        <div class="card doc-card">
+          <div class="doc-tag">Document E | 1870</div>
+          <h3>1870 Census</h3>
+          <p>
+            Cornelius’s real estate value had doubled by 1870. The census also shows Margaret as keeping house
+            and John living in the family, giving a clearer picture of family life and economic growth.
+          </p>
+        </div>
+
+        <div class="card doc-card">
+          <div class="doc-tag">Documents F–G | 1870–1877</div>
+          <h3>Property records and move to South 9th</h3>
+          <p>
+            These records place Cornelius first at Lombard Street and then at 502 S. 9th Street. Together
+            they reveal neighborhood stability and his active role in property transactions.
+          </p>
+        </div>
+
+        <div class="card doc-card">
+          <div class="doc-tag">Document H | 1880</div>
+          <h3>1880 Census</h3>
+          <p>
+            The census shows Cornelius, Margaret, John, and nieces Mary and Katie in the household.
+            It reflects family structure and the stability of the Sheahan home.
+          </p>
+        </div>
+
+        <div class="card doc-card">
+          <div class="doc-tag">Documents M–N | 1890</div>
+          <h3>City directories</h3>
+          <p>
+            These sources confirm that Cornelius remained at the same address for years and suggest
+            strong neighborhood connections and a lasting place in the city’s business community.
+          </p>
+        </div>
+
+        <div class="card doc-card">
+          <div class="doc-tag">Document U | 1900</div>
+          <h3>1900 Census</h3>
+          <p>
+            This document shows the late-life household with Cornelius, Margaret, John, Jennie, and a servant.
+            It highlights retirement, family continuity, and increased social standing.
+          </p>
+        </div>
+
+        <div class="card doc-card">
+          <div class="doc-tag">Documents AA–AH | 1902</div>
+          <h3>Probate and death records</h3>
+          <p>
+            These records show the management of Cornelius’s estate and the end of his life in Philadelphia.
+            They are important because they reveal how much wealth and property he had accumulated by death.
+          </p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:20px;">
+        <h3>What to add here</h3>
+        <ul>
+          <li>Upload screenshots of each record from your binder</li>
+          <li>Put each image under the matching document title</li>
+          <li>Add 2 to 4 sentences of analysis under each image</li>
+          <li>If possible, include source labels like “Philadelphia City Archives” or “U.S. Census”</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="family">
+      <h2 class="section-title">Family Tree</h2>
+      <p class="section-sub">
+        The project directions require a scanned family tree depicting the subject and his family members.
+        Put that scanned image here.
+      </p>
+
+      <div class="family-tree">
+        <h3>Insert scanned family tree here</h3>
+        <p>
+          Suggested people to show: Cornelius O. Sheahan, Margaret Sheahan, John C. Sheahan,
+          and any other relatives included in your binder.
+        </p>
+        <p class="note">
+          You can replace this entire box with an image tag later, or paste the scanned family tree directly here.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Conclusion</h2>
+      <div class="card">
+        <p>
+          Cornelius O. Sheahan was not a nationally famous figure, but his life tells an important historical story.
+          He came from Ireland, established himself in Philadelphia, built wealth through labor and investment,
+          supported a family, and left behind a rich documentary record. His life reflects the broader experience
+          of Irish immigrants in nineteenth-century America and shows how one individual’s personal path can
+          illuminate the history of a city and a nation.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <div class="footer">
+    Cemetery Research Project Website • Cornelius O. Sheahan • Built from biography, census, deed, probate, and directory research
+  </div>
 
 </body>
 </html>
